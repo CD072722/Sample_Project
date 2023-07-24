@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "jquery": "^3.7.0",
+    "toast": "^0.5.4",
+    "toastify": "^2.0.1"
+  }
+}

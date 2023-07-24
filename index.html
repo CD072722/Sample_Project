@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tab -->
+    <title>iWorQ Sample</title>
+    <link rel="icon" href="https://www.pngmart.com/files/16/Tick-Green-Check-Mark-PNG-Photos.png" type="image/x-icon" />
+    <!-- reference sheets -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  </head>
+  <body>
+    <h1 id="head">Enter your information</h1>
+    <form class="form">
+      <!-- 1. Three fields of information -->
+      <div>
+        <label id="name">Name:</label>
+        <input type="text" id="nameInput" />
+      </div>
+      <div>
+        <label id="birthday">Birthday:</label>
+        <input type="date" id="birthdayInput" />
+      </div>
+      <div>
+        <label id="email">Email:</label>
+        <input type="email" id="emailInput" />
+      </div>
+      <button type="submit" id="submit">Submit</button>
+    </form>
+  </body>
+  <script>
+    // 2. Validates and submits to PHP
+    $(document).ready(function () {
+      $(".form").submit(function (e) {
+        e.preventDefault();
+
+        // grab values of inputs
+        const name = $("#nameInput").val();
+        const birthday = $("#birthdayInput").val();
+        const email = $("#emailInput").val();
+
+        //Show toastify message if one+ fields are empty
+        if (name === "" || birthday === "" || email === "") {
+          Toastify({
+            text: "Please fill out all fields",
+            backgroundColor: "#ff1212",
+            className: "error",
+            gravity: "bottom",
+            position: "center",
+            Duration: 3000,
+          }).showToast();
+          return;
+        }
+
+        $.ajax({
+          url: "form.php", //Send information to the php file
+          method: "POST",
+          data: { name: name, birthday: birthday, email: email },
+
+          // display response if successful
+          success: function (response) {
+            console.log("response", response);
+          },
+
+          // display error message if unsuccessful
+          error: function (err) {
+            console.log("error", err);
+          },
+        });
+        this.reset();
+      });
+    });
+  </script>
+</html>
